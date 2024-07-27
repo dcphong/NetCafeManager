@@ -70,19 +70,20 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel  {
             e.printStackTrace();
         }
     }
-    void searchId(){
+    boolean searchId(String text)throws Exception{
         try {
-            Product product = new Product();
-            STT = 1;
-            list.clear();
-            product = proDao.selectByID(Integer.parseInt(txtTimKiem.getText()));
-            list.add(product);
-            fillToTable();
+           for(char c : text.toCharArray()){
+               if(!Character.isDigit(c)){
+                   return false;
+               }
+           }
         } catch (Exception e) {
+            System.out.println("Khong tim thay sp: "+txtTimKiem.getText());
             e.printStackTrace();
         }
+        return true;
     }
-    void setForm(int i) {
+   void setForm(int i) {
 
         try {
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -107,7 +108,7 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel  {
         }
     }
 
-    public void openDialog() {
+ public void openDialog() {
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
         TaoSanPhamJDialog dialog = new TaoSanPhamJDialog(frame, true);
         dialog.setVisible(true);
@@ -200,7 +201,6 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel  {
         jLabel2 = new javax.swing.JLabel();
         txtTimKiem = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        btnrefesh = new javax.swing.JButton();
 
         itXem.setText("Chi tiết");
         itXem.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -288,18 +288,16 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel  {
         jLabel2.setText("Danh sách sản phẩm: ");
 
         txtTimKiem.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        txtTimKiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTimKiemKeyPressed(evt);
+            }
+        });
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/KinhLup.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
-            }
-        });
-
-        btnrefesh.setText("refesh");
-        btnrefesh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnrefeshActionPerformed(evt);
             }
         });
 
@@ -312,8 +310,6 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel  {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnrefesh)
-                .addGap(43, 43, 43)
                 .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -327,8 +323,7 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel  {
                         .addGap(10, 10, 10)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnrefesh)))
+                            .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE))
@@ -387,19 +382,40 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel  {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        searchId();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void btnrefeshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnrefeshActionPerformed
+    private void txtTimKiemKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyPressed
         // TODO add your handling code here:
-        loadDataToTable();
-        fillToTable();
-    }//GEN-LAST:event_btnrefeshActionPerformed
+         Product pro = new Product();
+        try {
+            if(txtTimKiem.getText().trim().equalsIgnoreCase("")){
+                loadDataToTable();
+                fillToTable();
+            }else{
+                if(searchId(txtTimKiem.getText())){
+                    STT = 1;
+                    list.clear();
+                     pro = proDao.selectByID(Integer.parseInt(txtTimKiem.getText()));
+                    if(pro != null){
+                        list.add(pro);
+                        System.out.println("Search for productId: "+pro.getId());
+                        fillToTable();
+                    }
+                }else{
+                    STT = 1;
+                    list.clear();
+                    list = proDao.searchByName(txtTimKiem.getText());
+                    fillToTable();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Khong tim duoc san pham ID: "+pro.getId()+" Ten: "+pro.getName());
+        }
+    }//GEN-LAST:event_txtTimKiemKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTaoSanPham;
-    private javax.swing.JButton btnrefesh;
     private javax.swing.JMenuItem itXem;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
