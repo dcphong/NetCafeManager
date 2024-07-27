@@ -182,29 +182,6 @@ public class TrangChuJPanel extends javax.swing.JPanel {
         lblmay18 = new javax.swing.JLabel();
         lblmay19 = new javax.swing.JLabel();
         lblmay20 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        HomePanel1 = new javax.swing.JPanel();
-        lblmay21 = new javax.swing.JLabel();
-        lblmay22 = new javax.swing.JLabel();
-        lblmay23 = new javax.swing.JLabel();
-        lblmay24 = new javax.swing.JLabel();
-        lblmay25 = new javax.swing.JLabel();
-        lblmay26 = new javax.swing.JLabel();
-        lblmay27 = new javax.swing.JLabel();
-        lblmay28 = new javax.swing.JLabel();
-        lblmay29 = new javax.swing.JLabel();
-        lblmay30 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        lblmay31 = new javax.swing.JLabel();
-        lblmay32 = new javax.swing.JLabel();
-        lblmay33 = new javax.swing.JLabel();
-        lblmay34 = new javax.swing.JLabel();
-        lblmay35 = new javax.swing.JLabel();
-        lblmay36 = new javax.swing.JLabel();
-        lblmay37 = new javax.swing.JLabel();
-        lblmay38 = new javax.swing.JLabel();
-        lblmay39 = new javax.swing.JLabel();
-        lblmay40 = new javax.swing.JLabel();
 
         mnitMoMay.setText("Mở máy");
         mnitMoMay.addActionListener(new java.awt.event.ActionListener() {
@@ -388,188 +365,12 @@ public class TrangChuJPanel extends javax.swing.JPanel {
         });
         jPanel2.add(lblmay20);
 
-        lblmay21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1.png"))); // NOI18N
-        HomePanel1.add(lblmay21);
-
-        lblmay22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/2.png"))); // NOI18N
-        lblmay22.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblmay22MouseClicked(evt);
-            }
-        });
-        HomePanel1.add(lblmay22);
-
-        lblmay23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/3.png"))); // NOI18N
-        lblmay23.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblmay23MouseClicked(evt);
-            }
-        });
-        HomePanel1.add(lblmay23);
-
-        lblmay24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/may4.png"))); // NOI18N
-        lblmay24.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblmay24MouseClicked(evt);
-            }
-        });
-        HomePanel1.add(lblmay24);
-
-        lblmay25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/5.png"))); // NOI18N
-        lblmay25.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblmay25MouseClicked(evt);
-            }
-        });
-        HomePanel1.add(lblmay25);
-
-        lblmay26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/6.png"))); // NOI18N
-        lblmay26.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblmay26MouseClicked(evt);
-            }
-        });
-        HomePanel1.add(lblmay26);
-
-        lblmay27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/8.png"))); // NOI18N
-        lblmay27.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblmay27MouseClicked(evt);
-            }
-        });
-        HomePanel1.add(lblmay27);
-
-        lblmay28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/7.png"))); // NOI18N
-        lblmay28.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblmay28MouseClicked(evt);
-            }
-        });
-        HomePanel1.add(lblmay28);
-
-        lblmay29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/9.png"))); // NOI18N
-        lblmay29.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblmay29MouseClicked(evt);
-            }
-        });
-        HomePanel1.add(lblmay29);
-
-        lblmay30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/10.png"))); // NOI18N
-        lblmay30.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblmay30MouseClicked(evt);
-            }
-        });
-        HomePanel1.add(lblmay30);
-
-        lblmay31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/11.png"))); // NOI18N
-        lblmay31.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblmay31MouseClicked(evt);
-            }
-        });
-        jPanel3.add(lblmay31);
-
-        lblmay32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/12.png"))); // NOI18N
-        lblmay32.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblmay32MouseClicked(evt);
-            }
-        });
-        jPanel3.add(lblmay32);
-
-        lblmay33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/13.png"))); // NOI18N
-        lblmay33.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblmay33MouseClicked(evt);
-            }
-        });
-        jPanel3.add(lblmay33);
-
-        lblmay34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/14.png"))); // NOI18N
-        lblmay34.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblmay34MouseClicked(evt);
-            }
-        });
-        jPanel3.add(lblmay34);
-
-        lblmay35.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/15.png"))); // NOI18N
-        lblmay35.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblmay35MouseClicked(evt);
-            }
-        });
-        jPanel3.add(lblmay35);
-
-        lblmay36.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16.png"))); // NOI18N
-        lblmay36.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblmay36MouseClicked(evt);
-            }
-        });
-        jPanel3.add(lblmay36);
-
-        lblmay37.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/17.png"))); // NOI18N
-        lblmay37.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblmay37MouseClicked(evt);
-            }
-        });
-        jPanel3.add(lblmay37);
-
-        lblmay38.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/18.png"))); // NOI18N
-        lblmay38.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblmay38MouseClicked(evt);
-            }
-        });
-        jPanel3.add(lblmay38);
-
-        lblmay39.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/19.png"))); // NOI18N
-        lblmay39.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblmay39MouseClicked(evt);
-            }
-        });
-        jPanel3.add(lblmay39);
-
-        lblmay40.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/20.png"))); // NOI18N
-        lblmay40.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblmay40MouseClicked(evt);
-            }
-        });
-        jPanel3.add(lblmay40);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(HomePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(HomePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 202, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(HomePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -578,11 +379,6 @@ public class TrangChuJPanel extends javax.swing.JPanel {
                 .addGap(27, 27, 27)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 202, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -677,89 +473,10 @@ public class TrangChuJPanel extends javax.swing.JPanel {
         message();
     }//GEN-LAST:event_mnitTinNhanActionPerformed
 
-    private void lblmay22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblmay22MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblmay22MouseClicked
-
-    private void lblmay23MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblmay23MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblmay23MouseClicked
-
-    private void lblmay24MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblmay24MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblmay24MouseClicked
-
-    private void lblmay25MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblmay25MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblmay25MouseClicked
-
-    private void lblmay26MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblmay26MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblmay26MouseClicked
-
-    private void lblmay27MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblmay27MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblmay27MouseClicked
-
-    private void lblmay28MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblmay28MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblmay28MouseClicked
-
-    private void lblmay29MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblmay29MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblmay29MouseClicked
-
-    private void lblmay30MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblmay30MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblmay30MouseClicked
-
-    private void lblmay31MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblmay31MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblmay31MouseClicked
-
-    private void lblmay32MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblmay32MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblmay32MouseClicked
-
-    private void lblmay33MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblmay33MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblmay33MouseClicked
-
-    private void lblmay34MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblmay34MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblmay34MouseClicked
-
-    private void lblmay35MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblmay35MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblmay35MouseClicked
-
-    private void lblmay36MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblmay36MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblmay36MouseClicked
-
-    private void lblmay37MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblmay37MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblmay37MouseClicked
-
-    private void lblmay38MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblmay38MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblmay38MouseClicked
-
-    private void lblmay39MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblmay39MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblmay39MouseClicked
-
-    private void lblmay40MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblmay40MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblmay40MouseClicked
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel HomePanel;
-    private javax.swing.JPanel HomePanel1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblmay1;
     private javax.swing.JLabel lblmay10;
     private javax.swing.JLabel lblmay11;
@@ -773,28 +490,8 @@ public class TrangChuJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel lblmay19;
     private javax.swing.JLabel lblmay2;
     private javax.swing.JLabel lblmay20;
-    private javax.swing.JLabel lblmay21;
-    private javax.swing.JLabel lblmay22;
-    private javax.swing.JLabel lblmay23;
-    private javax.swing.JLabel lblmay24;
-    private javax.swing.JLabel lblmay25;
-    private javax.swing.JLabel lblmay26;
-    private javax.swing.JLabel lblmay27;
-    private javax.swing.JLabel lblmay28;
-    private javax.swing.JLabel lblmay29;
     private javax.swing.JLabel lblmay3;
-    private javax.swing.JLabel lblmay30;
-    private javax.swing.JLabel lblmay31;
-    private javax.swing.JLabel lblmay32;
-    private javax.swing.JLabel lblmay33;
-    private javax.swing.JLabel lblmay34;
-    private javax.swing.JLabel lblmay35;
-    private javax.swing.JLabel lblmay36;
-    private javax.swing.JLabel lblmay37;
-    private javax.swing.JLabel lblmay38;
-    private javax.swing.JLabel lblmay39;
     private javax.swing.JLabel lblmay4;
-    private javax.swing.JLabel lblmay40;
     private javax.swing.JLabel lblmay5;
     private javax.swing.JLabel lblmay6;
     private javax.swing.JLabel lblmay7;

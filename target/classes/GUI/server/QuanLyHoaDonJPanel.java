@@ -480,7 +480,6 @@ public class QuanLyHoaDonJPanel extends javax.swing.JPanel {
         jLabel9.setText("Tổng tiền:");
 
         lblTongTien.setFont(new java.awt.Font("Dialog", 2, 18)); // NOI18N
-        lblTongTien.setForeground(new java.awt.Color(255, 0, 51));
         lblTongTien.setText("0.00đ");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
