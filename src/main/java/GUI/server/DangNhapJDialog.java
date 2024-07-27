@@ -135,6 +135,16 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         txtDangNhap.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
         txtMatKhau.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        txtMatKhau.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMatKhauActionPerformed(evt);
+            }
+        });
+        txtMatKhau.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtMatKhauKeyPressed(evt);
+            }
+        });
 
         btnLogin.setFont(new java.awt.Font("Source Code Pro", 1, 16)); // NOI18N
         btnLogin.setText("Login");
@@ -238,6 +248,7 @@ public class DangNhapJDialog extends javax.swing.JDialog {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
+        
         login();
     }//GEN-LAST:event_btnLoginActionPerformed
 
@@ -245,6 +256,17 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void txtMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMatKhauActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMatKhauActionPerformed
+
+    private void txtMatKhauKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMatKhauKeyPressed
+        // TODO add your handling code here:
+         if (evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER) {
+            btnLogin.doClick();
+        }
+    }//GEN-LAST:event_txtMatKhauKeyPressed
 
     /**
      * @param args the command line arguments
