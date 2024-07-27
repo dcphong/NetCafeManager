@@ -9,6 +9,7 @@ import entity.Computer;
 import java.awt.Font;
 import java.math.BigDecimal;
 import java.util.List;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -422,8 +423,10 @@ public class QuanLyMayJPanel extends javax.swing.JPanel {
 
     private void tblQuanLyMayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQuanLyMayMouseClicked
         // TODO add your handling code here: 
-        if (evt.getClickCount() == 1) {
-            try {
+          if(!SwingUtilities.isLeftMouseButton(evt)){
+              
+          }else{
+              try {
                 this.row = tblQuanLyMay.getSelectedRow();
                 tblQuanLyMay.setRowSelectionInterval(row, row);
                 // Lấy giá trị từ bảng và chuyển đổi nó thành chuỗi
@@ -432,13 +435,8 @@ public class QuanLyMayJPanel extends javax.swing.JPanel {
                 Computer computer = comDao.selectByID(id);
                 this.setForm(computer);
             } catch (Exception ex) {
-                Xnoti.msg(this, "Lỗi Tải Lên Form", "Thông Báo Lối");
-                System.out.println(ex);
-                ex.printStackTrace();
             }
-
-        }
-
+          }
     }//GEN-LAST:event_tblQuanLyMayMouseClicked
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
