@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,14 +24,11 @@ import utils.Xnoti;
  * @author ASUS
  */
 public class Cilent extends javax.swing.JFrame {
+
     private BigDecimal balance;
     private BigDecimal price;
-    
-    
+
     private int totalTime; // Tổng thời gian (tính bằng giây)
-    private int ratePerHour; // Giá mỗi giờ
-    private int ratePerSecond; // Giá mỗi giây
-    private int usedTime; // Thời gian đã sử dụng (tính bằng giây)
     private int remainingTime; // Thời gian còn lại (tính bằng giây)
     private Timer timer;
 
@@ -38,17 +36,8 @@ public class Cilent extends javax.swing.JFrame {
         setUndecorated(true);
         initComponents();
         setLocationToRight();
-    }
 
-//    void init(int totalTime, int ratePerHour) {
-//        this.totalTime = totalTime * 60 * 60; // to second
-//        this.ratePerHour = ratePerHour;
-//        this.ratePerSecond = ratePerHour / 3600; // to second price
-//        this.usedTime = 0;
-//        this.remainingTime = totalTime;
-//        this.timer = new Timer();
-//        
-//    }
+    }
 
     private void setLocationToRight() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -88,16 +77,95 @@ public class Cilent extends javax.swing.JFrame {
         TinNhanJDialog tinnhan = new TinNhanJDialog(frame, true);
         tinnhan.setVisible(true);
     }
-
-    private void setBalanceClient(BigDecimal balance) {
+    public class TimeUsage {
+        int hoursUsed = 0;
+        int minutesUsed = 0;
+        int secondsUsed = 0;
+        BigDecimal amountUsed = BigDecimal.ZERO;
+    }
+    private void setBalanceClient(BigDecimal balance, BigDecimal price) {
         txtSoDu.setText(balance.toString());
+        System.out.println("Đang sử dụng máy có giá: " + price);
+        BigDecimal totalTimeDecimal = balance.divide(price, RoundingMode.DOWN);
+        totalTime = totalTimeDecimal.intValue();
+
+        BigDecimal remainingBalance = balance.remainder(price);
+        int remainingMinutes = remainingBalance.multiply(new BigDecimal("60")).divide(price, RoundingMode.DOWN).intValue();
+
+        TimeUsage timeUsage = new TimeUsage();
+
+        Thread timerThread = new Thread(() -> {
+            try {
+                while (true) {
+                    // Tăng số giây đã sử dụng
+                    timeUsage.secondsUsed++;
+                    if (timeUsage.secondsUsed == 60) {
+                        timeUsage.secondsUsed = 0;
+                        timeUsage.minutesUsed++;
+                        if (timeUsage.minutesUsed == 60) {
+                            timeUsage.minutesUsed = 0;
+                            timeUsage.hoursUsed++;
+                        }
+                    }
+
+                    // Tính số tiền đã sử dụng
+                    timeUsage.amountUsed = price.multiply(new BigDecimal(timeUsage.hoursUsed))
+                                      .add(price.multiply(new BigDecimal(timeUsage.minutesUsed))
+                                                .divide(new BigDecimal(60), RoundingMode.DOWN))
+                                      .add(price.multiply(new BigDecimal(timeUsage.secondsUsed))
+                                                .divide(new BigDecimal(3600), RoundingMode.DOWN));
+
+                    // Tính thời gian còn lại
+                    int remainingHours = totalTime - timeUsage.hoursUsed;
+                    int remainingMinutesUpdate = remainingMinutes - timeUsage.minutesUsed;
+                    int remainingSecondsUpdate = 60 - timeUsage.secondsUsed;
+                    if (remainingSecondsUpdate == 60) {
+                        remainingSecondsUpdate = 0;
+                        remainingMinutesUpdate--;
+                    }
+                    if (remainingMinutesUpdate < 0) {
+                        remainingMinutesUpdate += 60;
+                        remainingHours--;
+                    }
+
+                    // Định dạng thời gian đã sử dụng và còn lại thành 00:00:00
+                    String formattedUsedTime = String.format("%02d:%02d:%02d", timeUsage.hoursUsed, timeUsage.minutesUsed, timeUsage.secondsUsed);
+                    String formattedRemainingTime = String.format("%02d:%02d:%02d", remainingHours, remainingMinutesUpdate, remainingSecondsUpdate);
+
+                    // Cập nhật giao diện người dùng một cách thread-safe
+                    SwingUtilities.invokeLater(() -> {
+                        txtThoiGianSuDung.setText(formattedUsedTime);
+                        txtThoiGianConLai.setText(formattedRemainingTime);
+                        txtTienDaSuDung.setText(timeUsage.amountUsed + "Đ");
+                    });
+
+                    if (remainingHours <= 0 && remainingMinutesUpdate <= 0 && remainingSecondsUpdate <= 0) {
+                        System.out.println("Thời gian sử dụng đã hết.");
+                        break;
+                    }
+
+                    // Tạm dừng luồng 1 giây (1000 ms)
+                    Thread.sleep(1000);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Luồng gặp lỗi khi chạy");
+            }
+        });
+
+        // Khởi động luồng
+        timerThread.start();
+
+        // Định dạng thời gian tổng cộng thành 00:00:00
+        String formattedTime = String.format("%02d:%02d:%02d", totalTime, remainingMinutes, 0);
+        txtTongThoiGian.setText(formattedTime);
     }
 
-    public void getBalaceClient(){
-        if(this.isVisible()){
+    public void getBalaceClient() {
+        if (this.isVisible()) {
             balance = MainClient.listBalanceClient.get(0);
             price = MainClient.listBalanceClient.get(1);
-            this.setBalanceClient(balance);
+            this.setBalanceClient(balance, price);
         }
     }
 
@@ -111,7 +179,7 @@ public class Cilent extends javax.swing.JFrame {
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jLabel8 = new javax.swing.JLabel();
@@ -298,31 +366,31 @@ public class Cilent extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void txtSoDuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSoDuActionPerformed
+    private void txtSoDuActionPerformed(java.awt.event.ActionEvent evt) {                                        
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtSoDuActionPerformed
+    }                                       
 
-    private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
+    private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {                                            
         // TODO add your handling code here:
         this.logout();
-    }//GEN-LAST:event_btnDangXuatActionPerformed
+    }                                           
 
-    private void btnDichVuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDichVuActionPerformed
+    private void btnDichVuActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // TODO add your handling code here:
         this.serviceFormTrue();
-    }//GEN-LAST:event_btnDichVuActionPerformed
+    }                                         
 
-    private void btnDoiMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoiMatKhauActionPerformed
+    private void btnDoiMatKhauActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // TODO add your handling code here:
         this.changePasswordFormTrue();
-    }//GEN-LAST:event_btnDoiMatKhauActionPerformed
+    }                                             
 
-    private void btnTinNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTinNhanActionPerformed
+    private void btnTinNhanActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // TODO add your handling code here:
         this.MessageFormTrue();
-    }//GEN-LAST:event_btnTinNhanActionPerformed
+    }                                          
 
     /**
      * @param args the command line arguments
@@ -375,7 +443,7 @@ public class Cilent extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JButton btnDangXuat;
     private javax.swing.JButton btnDichVu;
     private javax.swing.JButton btnDoiMatKhau;
@@ -396,6 +464,6 @@ public class Cilent extends javax.swing.JFrame {
     private javax.swing.JTextField txtThoiGianSuDung;
     private javax.swing.JTextField txtTienDaSuDung;
     private javax.swing.JTextField txtTongThoiGian;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 
 }
