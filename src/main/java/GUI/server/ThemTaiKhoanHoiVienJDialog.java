@@ -107,24 +107,16 @@ public class ThemTaiKhoanHoiVienJDialog extends javax.swing.JDialog {
 
         pnlChinh.setLayout(null);
 
-        pnlTaiKhoan.setBackground(new java.awt.Color(102, 102, 102));
-
-        jLabel1.setBackground(new java.awt.Color(204, 204, 204));
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("TÀI KHOẢN HỘI VIÊN");
 
-        jPanel2.setBackground(new java.awt.Color(102, 102, 102));
-
         jLabel3.setFont(new java.awt.Font("Times New Roman", 2, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("ID tài khoản:");
 
         txtIDTaiKhoan.setEditable(false);
         txtIDTaiKhoan.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Times New Roman", 2, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Tên tài khoản:");
 
         txtTenTaiKhoan.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -135,13 +127,11 @@ public class ThemTaiKhoanHoiVienJDialog extends javax.swing.JDialog {
         });
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 2, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Mật khẩu:");
 
         txtMatKhau.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Times New Roman", 2, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Vai trò:");
 
         cboVaiTro.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -192,16 +182,12 @@ public class ThemTaiKhoanHoiVienJDialog extends javax.swing.JDialog {
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
-        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
-
         jLabel5.setFont(new java.awt.Font("Times New Roman", 2, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Số dư:");
 
         txtSoDu.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("Times New Roman", 2, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Tên hội viên:");
 
         txtTenHoiVien.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -209,13 +195,11 @@ public class ThemTaiKhoanHoiVienJDialog extends javax.swing.JDialog {
         txtIDHoiVien.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
         jLabel9.setFont(new java.awt.Font("Times New Roman", 2, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Tạo lúc:");
 
         txtTaoLuc.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 2, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("ID hội viên:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -258,8 +242,6 @@ public class ThemTaiKhoanHoiVienJDialog extends javax.swing.JDialog {
                     .addComponent(jLabel9))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
-
-        jPanel3.setBackground(new java.awt.Color(102, 102, 102));
 
         txtTao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Luu1.png"))); // NOI18N
         txtTao.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
