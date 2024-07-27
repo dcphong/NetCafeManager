@@ -281,7 +281,7 @@ public class IOServer {
             }
             computer.setStatus("Đang chờ");
             computerDAO.update(computer);
-            MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.RED);
+            MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.YELLOW);
             
             return "Computer " + computerID + " waiting open..........";
         }
@@ -292,7 +292,7 @@ public class IOServer {
             }
             computer.setStatus("Đang bảo trì");
             computerDAO.update(computer);
-            MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.BLUE);
+            MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.RED);
             
             return "Computer " + computerID + " successfully to maintain";
         }
@@ -405,7 +405,7 @@ public class IOServer {
 
             computer.setStatus("Đang chờ");
             computerDAO.update(computer);
-            MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.RED);
+            MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.YELLOW);
 
             BigDecimal hours = XDate.getDifferenceInHours(session.getEndTime(), session.getStartTime());
             BigDecimal totalMoneyUsage = hours.multiply(computer.getPricePerHour());
