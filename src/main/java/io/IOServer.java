@@ -256,6 +256,7 @@ public class IOServer {
                     }
                 } catch (SocketException e) {
                     System.out.println("Socket closed, stopping  for ComputerID: " + computerID);
+                    MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.WHITE);
                     break;
                 } catch (Exception ex) {
                     Logger.getLogger(IOServer.class.getName()).log(Level.SEVERE, null, ex);
@@ -280,7 +281,7 @@ public class IOServer {
             }
             computer.setStatus("Đang chờ");
             computerDAO.update(computer);
-            MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.YELLOW);
+            MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.RED);
             
             return "Computer " + computerID + " waiting open..........";
         }
@@ -291,7 +292,7 @@ public class IOServer {
             }
             computer.setStatus("Đang bảo trì");
             computerDAO.update(computer);
-            MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.RED);
+            MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.BLUE);
             
             return "Computer " + computerID + " successfully to maintain";
         }
@@ -404,7 +405,7 @@ public class IOServer {
 
             computer.setStatus("Đang chờ");
             computerDAO.update(computer);
-            MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.YELLOW);
+            MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.RED);
 
             BigDecimal hours = XDate.getDifferenceInHours(session.getEndTime(), session.getStartTime());
             BigDecimal totalMoneyUsage = hours.multiply(computer.getPricePerHour());
@@ -449,6 +450,7 @@ public class IOServer {
             MainTest.mainForm.home.updateLabelColor(computer.getId(), UIManager.getColor("Component.background"));
             try {
                 computerDAO.update(computer);
+                MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.WHITE);
             } catch (Exception ex) {
                 Logger.getLogger(IOServer.class.getName()).log(Level.SEVERE, null, ex);
             }
