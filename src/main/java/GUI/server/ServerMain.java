@@ -21,6 +21,7 @@ import utils.Auth;
 public class ServerMain extends javax.swing.JFrame {
 
     public TrangChuJPanel home = new TrangChuJPanel();
+    public QuanLyHoaDonJPanel managerInvoice = new QuanLyHoaDonJPanel();
     private CardLayout cardLayout;
     public JPanel mainPanel;
 
@@ -43,7 +44,7 @@ public class ServerMain extends javax.swing.JFrame {
         home = new TrangChuJPanel();
         QuanLyTaiKhoanJPanel managerAcount = new QuanLyTaiKhoanJPanel();
         QuanLySanPhamJPanel managerProduct = new QuanLySanPhamJPanel();
-        QuanLyHoaDonJPanel managerInvoice = new QuanLyHoaDonJPanel();
+        managerInvoice = new QuanLyHoaDonJPanel();
         QuanLyMayJPanel managerComputer = new QuanLyMayJPanel();
         ThongKeDoanhThuJPanel thongKeDoanhThu = new ThongKeDoanhThuJPanel();
         ThongKeLuongNhanVienJPanel thongKeLuongNhanVien = new ThongKeLuongNhanVienJPanel();
