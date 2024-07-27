@@ -4,6 +4,7 @@
  */
 package GUI.server;
 
+import Interface.UpdateListener;
 import dao.ProductDAO;
 import entity.Product;
 import java.awt.Dimension;
@@ -11,8 +12,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,7 +31,13 @@ import utils.Ximage;
  * @author ASUS
  */
 public class TaoSanPhamJDialog extends javax.swing.JDialog {
-    JFileChooser filechooser = new JFileChooser("D:\\NEWPRO_N5\\NetCF-16th7-FE(MEMBERS)\\NetCF-15th7-FE\\src\\main\\resources\\image");
+    JFileChooser filechooser = new JFileChooser("D:\\NetCafeManager\\NetCafeManager\\\\src\\main\\resources\\image");
+    DefaultComboBoxModel model = new DefaultComboBoxModel();
+    ProductDAO pro = new ProductDAO();
+     private UpdateListener listener ;
+    public void setProductListener(UpdateListener listener){
+        this.listener = listener;
+    }
     /**
      * Creates new form TaoSanPhamJDialog
      */
@@ -35,12 +47,34 @@ public class TaoSanPhamJDialog extends javax.swing.JDialog {
         setLocation(550, 130);
         init();
     }
+    public void fillOnUpdate(){
+        if(listener != null){
+            listener.onUpdate();
+        }
+    }
     public void init(){
         // Đặt kích thước cho JDialog
         setSize(new Dimension(1000, 900));
         
         // Đặt kích thước ưu tiên cho JPanel pnlChinh
         pnlChinh.setPreferredSize(new Dimension(1000, 900));
+        fillToCbo();
+    }
+    void fillToCbo(){
+        try {
+            DefaultComboBoxModel cboModel = (DefaultComboBoxModel) cboType.getModel();
+            cboModel.removeAllElements();
+            Set<String> type = new HashSet<>();
+            List<Product> listProduct = pro.selectAll();
+            for(Product p : listProduct){
+                type.add(p.getType());
+            }
+            for(String proType : type){
+                cboModel.addElement(proType);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
    Product getFormInsert(){
        Product product = new Product();
@@ -126,6 +160,7 @@ public class TaoSanPhamJDialog extends javax.swing.JDialog {
         lblPicture = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtIDSanPham = new javax.swing.JTextField();
+        cboType = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -194,14 +229,16 @@ public class TaoSanPhamJDialog extends javax.swing.JDialog {
         txtIDSanPham.setEditable(false);
         txtIDSanPham.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
 
+        cboType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTypeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(278, 278, 278))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 117, Short.MAX_VALUE)
                 .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -231,6 +268,15 @@ public class TaoSanPhamJDialog extends javax.swing.JDialog {
                             .addComponent(txtGia, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
                             .addComponent(lblPicture, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(278, 278, 278))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(cboType, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(149, 149, 149))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -254,13 +300,15 @@ public class TaoSanPhamJDialog extends javax.swing.JDialog {
                             .addComponent(txtIDSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, Short.MAX_VALUE)
-                        .addComponent(lblPicture, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(121, 121, 121)
                         .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblPicture, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cboType, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -338,6 +386,10 @@ public class TaoSanPhamJDialog extends javax.swing.JDialog {
         lblPicture.setIcon(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void cboTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTypeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboTypeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -384,6 +436,7 @@ public class TaoSanPhamJDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuy;
     private javax.swing.JButton btnLuu;
+    private javax.swing.JComboBox<String> cboType;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -454,6 +507,14 @@ public class TaoSanPhamJDialog extends javax.swing.JDialog {
 
     public void setLblPicture(JLabel lblPicture) {
         this.lblPicture = lblPicture;
+    }
+
+    public JComboBox<String> getCboType() {
+        return cboType;
+    }
+
+    public void setCboType(JComboBox<String> cboType) {
+        this.cboType = cboType;
     }
     
 }
