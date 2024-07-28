@@ -26,9 +26,20 @@ import utils.Ximage;
  */
 public class TaoSanPhamJDialog extends javax.swing.JDialog {
     JFileChooser filechooser = new JFileChooser("D:\\NEWPRO_N5\\NetCF-16th7-FE(MEMBERS)\\NetCF-15th7-FE\\src\\main\\resources\\image");
-    /**
-     * Creates new form TaoSanPhamJDialog
-     */
+   DefaultComboBoxModel model = new DefaultComboBoxModel();
+    ProductDAO pro = new ProductDAO();
+     private UpdateListener listener ;
+
+    public void setProductListener(UpdateListener listener){
+        this.listener = listener;
+    }
+    public void fillOnUpdate(){
+        if(listener != null){
+            listener.onUpdate();
+        }
+    }
+
+    
     public TaoSanPhamJDialog(java.awt.Frame parent, boolean modal) {
          super(parent, modal);
         initComponents();
@@ -42,12 +53,29 @@ public class TaoSanPhamJDialog extends javax.swing.JDialog {
         // Đặt kích thước ưu tiên cho JPanel pnlChinh
         pnlChinh.setPreferredSize(new Dimension(1000, 900));
     }
+    void fillToCbo(){
+        try {
+            DefaultComboBoxModel cboModel = (DefaultComboBoxModel) cboType.getModel();
+            cboModel.removeAllElements();
+            Set<String> type = new HashSet<>();
+            List<Product> listProduct = pro.selectAll();
+            for(Product p : listProduct){
+                type.add(p.getType());
+            }
+            for(String proType : type){
+                cboModel.addElement(proType);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
    Product getFormInsert(){
        Product product = new Product();
 //       product.setId(Integer.parseInt(txtIDSanPham.getText()));
        product.setName(txtTenSanPham.getText());
        product.setPrice(BigDecimal.valueOf(Double.parseDouble(txtGia.getText())));
        product.setDescription(lblPicture.getToolTipText());
+       product.setType(String.valueOf(cboType.getSelectedItem()));
        return product;
    }
    Product getForm(){
@@ -56,6 +84,7 @@ public class TaoSanPhamJDialog extends javax.swing.JDialog {
        product.setName(txtTenSanPham.getText());
        product.setPrice(BigDecimal.valueOf(Double.parseDouble(txtGia.getText())));
        product.setDescription(lblPicture.getToolTipText());
+       product.setType(String.valueOf(cboType.getSelectedItem()));
        return product;
    }
   public void setImage(){
@@ -75,6 +104,7 @@ public class TaoSanPhamJDialog extends javax.swing.JDialog {
       try {
           proDao.insert(product);
           System.out.println("Them thanh cong");
+           fillOnUpdate();
           JOptionPane.showMessageDialog(this, "Them Thanh Cong");
       } catch (Exception e) {
           System.out.println("Them that bai");
@@ -86,6 +116,7 @@ public class TaoSanPhamJDialog extends javax.swing.JDialog {
       try {
           proDao.update(product);
           System.out.println("Cap nhat thanh cong");
+           fillOnUpdate();
       } catch (Exception e) {
           System.out.println("cap nhat that bai");
           e.printStackTrace();
@@ -97,6 +128,7 @@ public class TaoSanPhamJDialog extends javax.swing.JDialog {
       try {
           proDao.delete(product.getId());
           System.out.println("Xoa thanh cong san pham");
+           fillOnUpdate();
       } catch (Exception e) {
           System.out.println("Xoa khong thanh cong");
           e.printStackTrace();
@@ -294,21 +326,21 @@ public class TaoSanPhamJDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtGiaActionPerformed
 
-    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {                                       
         // TODO add your handling code here:
         try {
             delete();
         } catch (Exception e) {
         }
 //        dispose();
-    }//GEN-LAST:event_btnHuyActionPerformed
+    }  
 
-    private void lblPictureMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPictureMousePressed
+   private void lblPictureMousePressed(java.awt.event.MouseEvent evt) {                                        
         // TODO add your handling code here:
         if(evt.getClickCount() == 2){
             setImage();
         }
-    }//GEN-LAST:event_lblPictureMousePressed
+    }     
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
         // TODO add your handling code here:
