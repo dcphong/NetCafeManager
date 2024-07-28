@@ -168,14 +168,22 @@ public class ChiTietHoaDonJDialog extends javax.swing.JDialog {
         }
         return true;
     }
-    
-    private void autoFinish(){
-        if(isFinish()){
-           session = listSessions.get(0);
-           if(session.getEndTime() != null){
-               updataStatusInvoice();
-               Xnoti.msg(this, "Hóa đơn đã tự động hoàn thành! Vì không có ODER ", "Thông báo");
-           }
+
+    private void autoFinish() {
+        if (isFinish()) {
+            try {
+                invoice = invoiceDAO.selectByID(invoiceID);
+            } catch (Exception ex) {
+                Logger.getLogger(ChiTietHoaDonJDialog.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (invoice.getStatus().equalsIgnoreCase("Hoàn thành")) {
+                return;
+            }
+            session = listSessions.get(0);
+            if (session.getEndTime() != null) {
+                updataStatusInvoice();
+                Xnoti.msg(this, "Hóa đơn " + invoiceID + " không có ODER. Tự động hoàn thành", "Thông báo");
+            }
         }
     }
     
@@ -183,6 +191,9 @@ public class ChiTietHoaDonJDialog extends javax.swing.JDialog {
         if(isFinish()){
             try {
                 invoice =  invoiceDAO.selectByID(invoiceID);
+                if(invoice.getStatus().equalsIgnoreCase("Hoàn thành")){
+                    return;
+                }
                 Integer memberID = invoice.getMemberID();
                 if(memberID != null && memberID != 0){
                     invoice.setStatus("Hoàn thành");

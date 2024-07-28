@@ -189,9 +189,9 @@ images\TrangChuJPanel$7.class
 GUI\server\TaoSanPhamJDialog$2.class
 dao\SessionDAO.class
 GUI\server\TaoSanPhamJDialog$3.class
+dao\StatisticsDAO.class
 GUI\server\TaoSanPhamJDialog$7$1.class
 GUI\server\DangNhapJDialog$3$1.class
-GUI\server\QuanLySanPhamJPanel$10.class
 GUI\client\dichvu_text$3.class
 GUI\server\QuanLySanPhamJPanel$1.class
 GUI\server\NapTienJDialog$2$1.class
