@@ -13,14 +13,76 @@ import javax.swing.table.JTableHeader;
  * @author ASUS
  */
 public class ThongKeLuongNhanVienJPanel extends javax.swing.JPanel {
-
+     DefaultTableModel model = new DefaultTableModel();
+    DefaultComboBoxModel<String> sortModel;
+    StatisticsDAO statisticsDAO = new StatisticsDAO();
+    EmployeeDAO emDao = new EmployeeDAO();
+    List<Employee> list = new ArrayList<>();
+    Employee em = new Employee();    
     /**
      * Creates new form ThongKeLuongNhanVien
      */
     public ThongKeLuongNhanVienJPanel() {
         initComponents();
         initTable();
-
+        model = (DefaultTableModel) tblThongKeLuong.getModel();
+        fillIdEmployeeCbo();
+        fillToTable();
+    }
+    void fillIdEmployeeCbo(){
+        try {
+             DefaultComboBoxModel model = (DefaultComboBoxModel) cboCuaNhanVien.getModel();
+        model.removeAllElements();
+        list = emDao.selectAll();
+        Set<Integer> IdEmployee = new HashSet<>();
+        for(Employee p : list){
+            IdEmployee.add(p.getId());
+        }
+        for(Integer IdEmployees : IdEmployee){
+            model.addElement(IdEmployees);
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    void cboFillToTable(){
+            System.out.println("<== Thong Ke NV ===>");
+//            Integer IdEm = Integer.parseInt((String) cboCuaNhanVien.getSelectedItem());
+//            System.out.println(IdEm);
+            try {
+            model.setRowCount(0);
+//                int idEm = (int) cboCuaNhanVien.getSelectedItem();
+            List<Object[]> data = statisticsDAO.getStatisticsByIdEmployee((Integer) cboCuaNhanVien.getSelectedItem());
+            for(Object[] row : data){
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    void fillToTable(){
+         // Lấy dữ liệu từ DAO
+        List<Object[]> data = statisticsDAO.getStatisticsList();
+        
+        // Xóa tất cả các hàng hiện tại trong bảng
+        model.setRowCount(0);
+        
+        // Thêm dữ liệu vào bảng
+        for (Object[] row : data) {
+            model.addRow(row);
+        }
+    }
+    void fillToTableByDate(Date startAt, Date endAt) {
+        // Lấy dữ liệu từ DAO
+        List<Object[]> data = statisticsDAO.getEmployeeSessionsDetail(startAt, endAt);
+        
+        // Xóa tất cả các hàng hiện tại trong bảng
+        model.setRowCount(0);
+        
+        // Thêm dữ liệu vào bảng
+        for (Object[] row : data) {
+            model.addRow(row);
+        }
     }
 
     ThongKeLuongNhanVienJPanel(ServerMain aThis) {
@@ -43,6 +105,48 @@ public class ThongKeLuongNhanVienJPanel extends javax.swing.JPanel {
         tblThongKeLuong.repaint();
 
     }
+    private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {                                       
+        // TODO add your handling code here:
+        fillToTable();
+    } 
+    private void txtTuNgayKeyPressed(java.awt.event.KeyEvent evt) {                                     
+        // TODO add your handling code here:
+        if(evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){
+            try {
+            // Chuyển đổi dữ liệu từ các trường nhập liệu
+            if(txtDenNgay.getText().trim().equalsIgnoreCase("") || txtTuNgay.getText().trim().equalsIgnoreCase("")){
+                Xnoti.msg(this, "Vui lòng điền đầy đủ thời gian bắt đầu và thời gian kết thúc!", "Thông báo trống!");
+            }else{
+                Date startAt = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(txtTuNgay.getText()+" 00:00:00.0");
+            Date endAt = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(txtDenNgay.getText()+" 23:59:59.9");
+            fillToTableByDate(startAt, endAt);
+            }
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        }
+    }       
+    private void txtDenNgayKeyPressed(java.awt.event.KeyEvent evt) {                                      
+        // TODO add your handling code here:
+        if(evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){
+            try {
+            // Chuyển đổi dữ liệu từ các trường nhập liệu
+            if(txtDenNgay.getText().trim().equalsIgnoreCase("") || txtTuNgay.getText().trim().equalsIgnoreCase("")){
+                Xnoti.msg(this, "Vui lòng điền đầy đủ thời gian bắt đầu và thời gian kết thúc!", "Thông báo trống!");
+            }else{
+                Date startAt = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(txtTuNgay.getText()+" 00:00:00.0");
+            Date endAt = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(txtDenNgay.getText()+" 23:59:59.9");
+            fillToTableByDate(startAt, endAt);
+            }
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        }
+    }       
+    private void cboCuaNhanVienActionPerformed(java.awt.event.ActionEvent evt) {                                               
+        // TODO add your handling code here:
+        cboFillToTable();
+    }                                              
 
     /**
      * This method is called from within the constructor to initialize the form.
