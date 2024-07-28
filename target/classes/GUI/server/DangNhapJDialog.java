@@ -199,7 +199,11 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         );
 
         pnlAnh.add(pnlFormDangNhap);
+<<<<<<< HEAD
         pnlFormDangNhap.setBounds(720, 380, 550, 280);
+=======
+        pnlFormDangNhap.setBounds(620, 390, 550, 280);
+>>>>>>> origin/master
 
         lblAnh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/BGLogin.jpg"))); // NOI18N
         pnlAnh.add(lblAnh);

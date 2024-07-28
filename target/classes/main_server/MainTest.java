@@ -35,6 +35,13 @@ public class MainTest{
         System.out.println("ID Nhan Vien: "+ EMPLOYEE_ID);
         server = new IOServer(EMPLOYEE_ID);
         
+<<<<<<< HEAD
+=======
+        //Set GUI chat cho server
+        chatGUI = new ServerChatGUI(server);
+        server.setChatGUI(chatGUI);
+        
+>>>>>>> origin/master
         //Bắt đầu khởi động server
         server.start();
     }

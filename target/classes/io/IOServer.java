@@ -256,6 +256,7 @@ public class IOServer {
                     }
                 } catch (SocketException e) {
                     System.out.println("Socket closed, stopping  for ComputerID: " + computerID);
+<<<<<<< HEAD
                     break;
                 } catch (Exception ex) {
                     Logger.getLogger(IOServer.class.getName()).log(Level.SEVERE, null, ex);
@@ -449,6 +450,203 @@ public class IOServer {
             MainTest.mainForm.home.updateLabelColor(computer.getId(), UIManager.getColor("Component.background"));
             try {
                 computerDAO.update(computer);
+=======
+                    MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.WHITE);
+                    break;
+                } catch (Exception ex) {
+                    Logger.getLogger(IOServer.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+        private synchronized void receiveMessage(int clientID, String message) throws SQLException {
+            String fullMessage = "Message from client " + clientID + ": " + message;
+            System.out.println(fullMessage);
+            if (server.chatGUI != null) {
+                server.chatGUI.appendMessage(fullMessage);
+            }
+        }
+
+        private synchronized String waitingOpen() throws Exception {
+            computer = computerDAO.selectByID(computerID);
+            clientID = computerID;
+            IOServer.loggedInClientsMap.put(clientID, this);
+            if (computer == null) {
+                throw new Exception("Invalid computer ID: " + computerID);
+            }
+            computer.setStatus("Đang chờ");
+            computerDAO.update(computer);
+            MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.YELLOW);
+            
+            return "Computer " + computerID + " waiting open..........";
+        }
+
+        private synchronized String toMaintain() throws Exception {
+            if (computerID == 0) {
+                return "Computer ID is not set. Please wait for the computer to open.";
+            }
+            computer.setStatus("Đang bảo trì");
+            computerDAO.update(computer);
+            MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.RED);
+            
+            return "Computer " + computerID + " successfully to maintain";
+        }
+
+        public synchronized String openForGuest() throws Exception {
+            if (computerID == 0) {
+                return "Computer ID is not set. Please wait for the computer to open.";
+            }
+
+            computer.setStatus("Đang sử dụng");
+            computerDAO.update(computer);
+            MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.GREEN);
+            // Các xử lý khác liên quan đến mở máy cho khách vãng lai
+            invoice = new Invoice(null, server.getEmployeeId(), BigDecimal.ZERO, XDate.now(), "Chưa hoàn thành");
+            invoiceDAO.insert(invoice);
+
+            session = new Session(computerID, XDate.now(), null, BigDecimal.ZERO, invoice.getId());
+            sessionDAO.insert(session);
+            return "Opened for guest successfully with client ID: " + clientID;
+        }
+
+        private synchronized String login(String username, String password) throws SQLException, Exception {
+            if (computerID == 0) {
+                return "Computer ID is not set. Please wait for the computer to open.";
+            }
+
+            account = accountDAO.selectByUsernameAndPassword(username, password);
+            if (account != null) {
+
+                computer.setStatus("Đang sử dụng");
+                computerDAO.update(computer);
+                MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.GREEN);
+                
+                member = memberDAO.selectByAccountID(account.getId());
+
+                invoice = new Invoice(member.getId(), server.getEmployeeId(), BigDecimal.ZERO, XDate.now(), "Chưa hoàn thành");
+                invoiceDAO.insert(invoice);
+
+                session = new Session(computerID, XDate.now(), null, BigDecimal.ZERO, invoice.getId());
+                sessionDAO.insert(session);
+
+                return "Login successful with client ID: " + clientID;
+            } else {
+                return "Invalid credentials";
+            }
+        }
+
+        private List<BigDecimal> getClientBalance() {
+            BigDecimal balanceClient = member.getBalance();
+            BigDecimal priceComputer = computer.getPricePerHour();
+            
+            List<BigDecimal> listBigDecimals = new ArrayList<>();
+            listBigDecimals.add(0, balanceClient);
+            listBigDecimals.add(1, priceComputer);
+            return listBigDecimals;
+        }
+
+        private synchronized String changePassword(String newPassword) throws SQLException, Exception {
+            if (computerID == 0) {
+                return "Computer ID is not set. Please wait for the computer to open.";
+            }
+            if (account != null) {
+                account.setPassword(newPassword);
+                accountDAO.update(account);
+                return "Password changed successfully";
+            }
+            return "Error changing password";
+        }
+
+        private synchronized String orderProduct(String productName, int quantity) throws SQLException, Exception {
+            if (computerID == 0) {
+                return "Computer ID is not set. Please wait for the computer to open.";
+            }
+            if (clientID == 0 || server.getEmployeeId() == 0) {
+                return "Not logged in";
+            }
+
+            product = productDAO.selectByName(productName);
+            
+            invoiceDetail = new InvoiceDetail();
+            invoiceDetail.setCompleted(false);
+            invoiceDetail.setProductID(product.getId());
+            invoiceDetail.setInvoiceID(invoice.getId());
+            invoiceDetail.setQuantity(quantity);
+            invoiceDetail.setPrice(product.getPrice().multiply(new BigDecimal(quantity)));
+            
+            invoiceDetailDAO.insert(invoiceDetail);
+
+            return "Product ordered successfully and invoiceDetail created";
+        }
+
+        private synchronized List<Product> exportListProduct() throws Exception {
+            return productDAO.selectAll();
+        }
+
+        private synchronized void logout() throws Exception {
+
+            if (computerID == 0) {
+                System.out.println("Computer ID is not set. Please wait for the computer to open.");
+            }
+
+            // Đảm bảo rằng session không null
+            if (session == null) {
+                throw new Exception("Session not found. Cannot log out.");
+            }
+
+            // Cập nhật thời gian kết thúc phiên
+            session.setEndTime(XDate.now());
+            System.out.println("Session end time set to: " + session.getEndTime());
+
+            computer.setStatus("Đang chờ");
+            computerDAO.update(computer);
+            MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.YELLOW);
+
+            BigDecimal hours = XDate.getDifferenceInHours(session.getEndTime(), session.getStartTime());
+            BigDecimal totalMoneyUsage = hours.multiply(computer.getPricePerHour());
+
+            List<InvoiceDetail> invoiceDetails = invoiceDetailDAO.selectByInvoiceID(invoice.getId());
+            BigDecimal totalPrice = BigDecimal.ZERO;
+            for (InvoiceDetail detail : invoiceDetails) {
+                totalPrice = totalPrice.add(detail.getPrice());
+            }
+
+            session.setTotalAmount(totalMoneyUsage);
+            invoice.setTotalAmount(totalMoneyUsage.add(totalPrice));
+
+            if (member != null) {
+                BigDecimal balanceBefore = member.getBalance();
+                BigDecimal totalAmount = invoice.getTotalAmount();
+                System.out.println("Balance Before: " + balanceBefore);
+                System.out.println("Total Amount: " + totalAmount);
+
+                BigDecimal newBalance = balanceBefore.subtract(totalAmount);
+                member.setBalance(newBalance);
+                memberDAO.update(member);
+
+                System.out.println("New Balance: " + newBalance);
+            }
+
+            sessionDAO.update(session);
+            invoiceDAO.update(invoice);
+
+            System.out.println("Client " + clientID + " Logged out successfully");
+        }
+
+        private synchronized void removeClient() throws Exception {
+            IOServer.loggedInClientsMap.remove(clientID);
+            clientID = 0;
+            session = null;
+            invoice = null;
+        }
+
+        public synchronized void shutdown() {
+            computer.setStatus("Đang tắt");
+            MainTest.mainForm.home.updateLabelColor(computer.getId(), UIManager.getColor("Component.background"));
+            try {
+                computerDAO.update(computer);
+                MainTest.mainForm.home.updateLabelColor(computer.getId(), Color.WHITE);
+>>>>>>> origin/master
             } catch (Exception ex) {
                 Logger.getLogger(IOServer.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -93,7 +93,7 @@ public class QuanLyHoaDonJPanel extends javax.swing.JPanel {
         });
     }
 
-    private void loadDataToArray() {
+    public void loadDataToArray() {
 
         try {
             list = invoiceDAO.selectAll();
@@ -121,7 +121,7 @@ public class QuanLyHoaDonJPanel extends javax.swing.JPanel {
         });
     }
 
-    private void fillToTable() {
+    public void fillToTable() {
         model = (DefaultTableModel) tblQuanLyHoaDon.getModel();
         model.setRowCount(0);
         int STT = 1;

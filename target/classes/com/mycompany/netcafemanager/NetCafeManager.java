@@ -4,6 +4,7 @@
 
 package com.mycompany.netcafemanager;
 
+<<<<<<< HEAD
 import dao.ComputerDAO;
 import entity.Computer;
 import io.IOServer;
@@ -54,4 +55,19 @@ public class NetCafeManager {
         
         
     }
+=======
+import java.io.IOException;
+
+
+
+
+/**
+ *
+ * @author Admin
+ */
+public class NetCafeManager {
+
+    public static void main(String[] args) throws IOException {
+    }     
+>>>>>>> origin/master
 }

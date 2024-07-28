@@ -12,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import main_server.MainTest;
-import utils.Auth;
 
 /**
  *

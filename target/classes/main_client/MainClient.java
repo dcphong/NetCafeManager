@@ -19,6 +19,7 @@ public class MainClient {
     public static List<Product> listProducts;
     public static List<BigDecimal> listBalanceClient;
     public static Cilent clientForm;
+<<<<<<< HEAD
     public static DangNhapJDialog dangNhapJDialog;
 
     public static void main(String[] args) {
@@ -77,6 +78,58 @@ public class MainClient {
                     if(dangNhapJDialog.isVisible()){
                         client.openComputer();
                     }
+=======
+
+    public static void main(String[] args) {
+        java.awt.EventQueue.invokeLater(() -> {
+            clientForm = new Cilent();
+            TinNhanJDialog tinNhanForm = new TinNhanJDialog(clientForm, false);
+            DangNhapJDialog dangNhapJDialog = new DangNhapJDialog(clientForm, false);
+            dangNhapJDialog.setVisible(true);
+
+            // Khởi tạo đối tượng callback
+            IOClient.ResponseCallback callback = response -> {
+                if (response.startsWith("Received product list with size:")) {
+                    listProducts = client.getListProducts();
+                    return;
+                }
+
+                if (response.startsWith("Client getBalance(): ")) {
+                    listBalanceClient = client.getListBalanceClient();
+                    clientForm.getBalaceClient();
+                    return;
+                }
+
+                SwingUtilities.invokeLater(() -> {
+                    if (dangNhapJDialog.isVisible()) {
+                        dangNhapJDialog.notify(response);
+                    }
+                });
+
+                SwingUtilities.invokeLater(() -> {
+                    if (dangNhapJDialog.isVisible()) {
+                        dangNhapJDialog.notify(response);
+                        if (response.equalsIgnoreCase("Server response: Invalid credentials")) {
+                            return;
+                        } else if (response.startsWith("Server response: Login successful with client ID: ")) {
+                            MainClient.client.importBalance();
+                            MainClient.clientForm.setVisible(true);
+                            dangNhapJDialog.dispose();
+                        }
+                    }
+                });
+            };
+
+            // Khởi tạo client và bắt đầu lắng nghe với callback
+            client = new IOClient();
+            client.startListening(callback);
+
+            // Thực hiện các hành động khác của client
+            SwingWorker<Void, Void> worker = new SwingWorker<>() {
+                @Override
+                protected Void doInBackground() {
+                    client.openComputer();
+>>>>>>> origin/master
                     client.importListProduct();
                     
                     return null;

@@ -161,6 +161,10 @@ public class IOClient {
         
     }
 
+<<<<<<< HEAD
+=======
+    @SuppressWarnings("unchecked")
+>>>>>>> origin/master
     public synchronized void startListening(ResponseCallback callback) {
         this.callback = callback; // Lưu trữ callback trong biến thành viên
         listeningThread = new Thread(() -> {
