@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 C:\Users\Admin\OneDrive - MSFT\Documents\NetBeansProjects\NetCafeManager_DONE_Server-Client_Full-stack_Final\NetCafeManager\src\main\java\entity\Member.java
 C:\Users\Admin\OneDrive - MSFT\Documents\NetBeansProjects\NetCafeManager_DONE_Server-Client_Full-stack_Final\NetCafeManager\src\main\java\utils\JdbcHelper.java
 C:\Users\Admin\OneDrive - MSFT\Documents\NetBeansProjects\NetCafeManager_DONE_Server-Client_Full-stack_Final\NetCafeManager\src\main\java\dao\IBaseDAO.java
@@ -54,6 +55,63 @@ C:\Users\Admin\OneDrive - MSFT\Documents\NetBeansProjects\NetCafeManager_DONE_Se
 C:\Users\Admin\OneDrive - MSFT\Documents\NetBeansProjects\NetCafeManager_DONE_Server-Client_Full-stack_Final\NetCafeManager\src\main\java\GUI\server\ServerMain.java
 C:\Users\Admin\OneDrive - MSFT\Documents\NetBeansProjects\NetCafeManager_DONE_Server-Client_Full-stack_Final\NetCafeManager\src\main\java\images\TrangChuJPanel.java
 C:\Users\Admin\OneDrive - MSFT\Documents\NetBeansProjects\NetCafeManager_DONE_Server-Client_Full-stack_Final\NetCafeManager\src\main\java\GUI\server\ThemTaiKhoanHoiVienJDialog.java
+=======
+/workspaces/NetCafeManager/src/main/java/GUI/client/Cilent.java
+/workspaces/NetCafeManager/src/main/java/GUI/client/DangNhapJDialog.java
+/workspaces/NetCafeManager/src/main/java/GUI/client/DoiMatKhauJDialog.java
+/workspaces/NetCafeManager/src/main/java/GUI/client/GioHangJDialog.java
+/workspaces/NetCafeManager/src/main/java/GUI/client/SanPhamJPanel.java
+/workspaces/NetCafeManager/src/main/java/GUI/client/TinNhanJDialog.java
+/workspaces/NetCafeManager/src/main/java/GUI/client/dichvu_text.java
+/workspaces/NetCafeManager/src/main/java/GUI/server/ChiTietHoaDonJDialog.java
+/workspaces/NetCafeManager/src/main/java/GUI/server/DangNhapJDialog.java
+/workspaces/NetCafeManager/src/main/java/GUI/server/NapTienJDialog.java
+/workspaces/NetCafeManager/src/main/java/GUI/server/QuanLyHoaDonJPanel.java
+/workspaces/NetCafeManager/src/main/java/GUI/server/QuanLyMayJPanel.java
+/workspaces/NetCafeManager/src/main/java/GUI/server/QuanLySanPhamJPanel.java
+/workspaces/NetCafeManager/src/main/java/GUI/server/QuanLyTaiKhoanJPanel.java
+/workspaces/NetCafeManager/src/main/java/GUI/server/ServerMain.java
+/workspaces/NetCafeManager/src/main/java/GUI/server/TaoSanPhamJDialog.java
+/workspaces/NetCafeManager/src/main/java/GUI/server/ThemTaiKhoan.java
+/workspaces/NetCafeManager/src/main/java/GUI/server/ThemTaiKhoanHoiVienJDialog.java
+/workspaces/NetCafeManager/src/main/java/GUI/server/ThemTaiKhoanNhanVienJDialog.java
+/workspaces/NetCafeManager/src/main/java/GUI/server/ThongKeDoanhThuJPanel.java
+/workspaces/NetCafeManager/src/main/java/GUI/server/ThongKeLuongNhanVienJPanel.java
+/workspaces/NetCafeManager/src/main/java/GUI/server/TrangChuJPanel.java
+/workspaces/NetCafeManager/src/main/java/com/mycompany/netcafemanager/NetCafeManager.java
+/workspaces/NetCafeManager/src/main/java/dao/AccountDAO.java
+/workspaces/NetCafeManager/src/main/java/dao/ComputerDAO.java
+/workspaces/NetCafeManager/src/main/java/dao/EmployeeDAO.java
+/workspaces/NetCafeManager/src/main/java/dao/IBaseDAO.java
+/workspaces/NetCafeManager/src/main/java/dao/InvoiceDAO.java
+/workspaces/NetCafeManager/src/main/java/dao/InvoiceDetailDAO.java
+/workspaces/NetCafeManager/src/main/java/dao/MemberDAO.java
+/workspaces/NetCafeManager/src/main/java/dao/ProductDAO.java
+/workspaces/NetCafeManager/src/main/java/dao/SessionDAO.java
+/workspaces/NetCafeManager/src/main/java/entity/Account.java
+/workspaces/NetCafeManager/src/main/java/entity/Computer.java
+/workspaces/NetCafeManager/src/main/java/entity/Employee.java
+/workspaces/NetCafeManager/src/main/java/entity/Invoice.java
+/workspaces/NetCafeManager/src/main/java/entity/InvoiceDetail.java
+/workspaces/NetCafeManager/src/main/java/entity/Member.java
+/workspaces/NetCafeManager/src/main/java/entity/Product.java
+/workspaces/NetCafeManager/src/main/java/entity/Session.java
+/workspaces/NetCafeManager/src/main/java/images/TrangChuJPanel.java
+/workspaces/NetCafeManager/src/main/java/io/IOClient.java
+/workspaces/NetCafeManager/src/main/java/io/IOServer.java
+/workspaces/NetCafeManager/src/main/java/io/MessageListenerFormServer.java
+/workspaces/NetCafeManager/src/main/java/io/TestIp.java
+/workspaces/NetCafeManager/src/main/java/main_client/MainClient.java
+/workspaces/NetCafeManager/src/main/java/main_server/MainTest.java
+/workspaces/NetCafeManager/src/main/java/test_server_client_GUI/ServerChatGUI.java
+/workspaces/NetCafeManager/src/main/java/utils/Auth.java
+/workspaces/NetCafeManager/src/main/java/utils/JdbcHelper.java
+/workspaces/NetCafeManager/src/main/java/utils/RoundedPanel.java
+/workspaces/NetCafeManager/src/main/java/utils/XDate.java
+/workspaces/NetCafeManager/src/main/java/utils/XInitTable.java
+/workspaces/NetCafeManager/src/main/java/utils/Ximage.java
+/workspaces/NetCafeManager/src/main/java/utils/Xnoti.java
+>>>>>>> origin/master
 =======
 /workspaces/NetCafeManager/src/main/java/GUI/client/Cilent.java
 /workspaces/NetCafeManager/src/main/java/GUI/client/DangNhapJDialog.java

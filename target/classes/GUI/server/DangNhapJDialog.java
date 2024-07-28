@@ -200,7 +200,11 @@ public class DangNhapJDialog extends javax.swing.JDialog {
 
         pnlAnh.add(pnlFormDangNhap);
 <<<<<<< HEAD
+<<<<<<< HEAD
         pnlFormDangNhap.setBounds(720, 380, 550, 280);
+=======
+        pnlFormDangNhap.setBounds(620, 390, 550, 280);
+>>>>>>> origin/master
 =======
         pnlFormDangNhap.setBounds(620, 390, 550, 280);
 >>>>>>> origin/master

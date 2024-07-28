@@ -36,6 +36,13 @@ public class MainTest{
         server = new IOServer(EMPLOYEE_ID);
         
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+        //Set GUI chat cho server
+        chatGUI = new ServerChatGUI(server);
+        server.setChatGUI(chatGUI);
+        
+>>>>>>> origin/master
 =======
         //Set GUI chat cho server
         chatGUI = new ServerChatGUI(server);

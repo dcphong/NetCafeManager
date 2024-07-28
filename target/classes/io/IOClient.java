@@ -162,6 +162,10 @@ public class IOClient {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    @SuppressWarnings("unchecked")
+>>>>>>> origin/master
 =======
     @SuppressWarnings("unchecked")
 >>>>>>> origin/master

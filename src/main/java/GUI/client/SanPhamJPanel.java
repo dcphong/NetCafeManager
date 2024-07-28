@@ -128,11 +128,9 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         });
 
         lblTen_Sp.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblTen_Sp.setForeground(new java.awt.Color(255, 0, 51));
         lblTen_Sp.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         lblGia_Sp.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblGia_Sp.setForeground(new java.awt.Color(255, 0, 51));
         lblGia_Sp.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel1.setFont(new java.awt.Font("Source Code Pro", 0, 14)); // NOI18N

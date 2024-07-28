@@ -66,7 +66,11 @@ public class TrangChuJPanel extends javax.swing.JPanel {
             mnitTinNhan.setVisible(true);
             mnitNapTien.setVisible(true);
 <<<<<<< HEAD
+<<<<<<< HEAD
         } else if (color == Color.RED) {
+=======
+        } else if (color == Color.YELLOW) {
+>>>>>>> origin/master
 =======
         } else if (color == Color.YELLOW) {
 >>>>>>> origin/master

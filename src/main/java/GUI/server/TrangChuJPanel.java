@@ -44,7 +44,7 @@ public class TrangChuJPanel extends javax.swing.JPanel {
                 java.lang.reflect.Field field = getClass().getDeclaredField("lblmay" + i); // Lấy field của JLabel
                 JLabel lblMay = (JLabel) field.get(this); // Lấy giá trị của JLabel từ field
                 lblMay.setOpaque(true);
-                lblMay.setBackground(Color.WHITE); // Đặt màu nền là màu trắng
+                lblMay.setBackground(this.getBackground()); // Đặt màu nền
                 labelsMay.put(i, lblMay); // Đưa JLabel vào Map labelsMay
             }
         } catch (NoSuchFieldException | IllegalAccessException e) {
