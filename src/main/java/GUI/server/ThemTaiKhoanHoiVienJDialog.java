@@ -20,21 +20,33 @@ import javax.swing.JTextField;
 
 public class ThemTaiKhoanHoiVienJDialog extends javax.swing.JDialog {
 
- 
+    public static Integer accountId;
     List<Member> listMember = new ArrayList<>();
     MemberDAO memberDAO = new MemberDAO();
+    List<Account> listAccount = new ArrayList<>();
     Account account = new Account();
     AccountDAO accountDAO =  new AccountDAO();
     
+    private UpdateListener listener;
+
+    public void setMemberListener(UpdateListener listener) {
+        this.listener = listener;
+    }
+
+    public void fillOnUpdate() {
+        if (listener != null) {
+            listener.onUpdate();
+        }
+    }
     
     
-    
-    public ThemTaiKhoanHoiVienJDialog(java.awt.Frame parent, boolean modal){
+    public ThemTaiKhoanHoiVienJDialog(java.awt.Frame parent, boolean modal, Integer accountID)throws Exception{
         super(parent, modal);
         initComponents();
         setLocation(420, 250);
         init();
-        
+         this.accountId = accountID;
+        checkNull(accountID);
     }
     
     public void init(){
@@ -44,25 +56,127 @@ public class ThemTaiKhoanHoiVienJDialog extends javax.swing.JDialog {
         // Đặt kích thước ưu tiên cho JPanel pnlChinh
         pnlChinh.setPreferredSize(new Dimension(1150, 549));
     }
-    
-    public Account getFormAcount(){
-        
-        account.setId(Integer.parseInt(txtIDTaiKhoan.getText()));
+    Account getForm() {
+        Account account = new Account();
+        if (!txtIDTaiKhoan.getText().trim().isEmpty()) {
+            account.setId(Integer.parseInt(txtIDTaiKhoan.getText()));
+        }
         account.setUsername(txtTenTaiKhoan.getText());
         account.setPassword(txtMatKhau.getText());
         account.setRole(String.valueOf(cboVaiTro.getSelectedItem()));
-        Date createdAt = new Date();
-        account.setCreatedAt(createdAt);
+        account.setCreatedAt(new Date());
         return account;
     }
-    
-    public Member getFormMember(){
-        Member member = new Member();
-        member.setId(Integer.parseInt(txtIDHoiVien.getText()));
-        member.setAccountID(ABORT);
-        
-        
-        return member;
+    Member getFormMem_Insert() {
+        Member mem = new Member();
+        if (!txtIDTaiKhoan.getText().trim().isEmpty()) {
+            mem.setId(Integer.parseInt(txtIDTaiKhoan.getText()));
+        }
+        if (!txtIDHoiVien.getText().trim().isEmpty()) {
+            mem.setAccountID(Integer.parseInt(txtIDHoiVien.getText()));
+        }
+        mem.setName(txtTenHoiVien.getText());
+        mem.setBalance(BigDecimal.valueOf(Double.parseDouble(txtSoDu.getText())));
+        return mem;
+    }
+
+    Member getFormMem_Update() {
+        Member mem = new Member();
+        if (!txtIDTaiKhoan.getText().trim().isEmpty()) {
+            mem.setAccountID(Integer.parseInt(txtIDTaiKhoan.getText()));
+        }
+        if (!txtIDHoiVien.getText().trim().isEmpty()) {
+            mem.setId(Integer.parseInt(txtIDHoiVien.getText()));
+        }
+        mem.setName(txtTenHoiVien.getText());
+        mem.setBalance(BigDecimal.valueOf(Double.parseDouble(txtSoDu.getText())));
+        return mem;
+    }
+
+    void setForm(Integer id) throws Exception {
+        System.out.println("THEMTK:" + id);
+        account = accountDAO.selectByID(id);
+        System.out.println(account);
+        txtIDTaiKhoan.setText(String.valueOf(id));
+        txtTenTaiKhoan.setText(account.getUsername());
+        txtMatKhau.setText(account.getPassword());
+        txtTaoLuc.setText(String.valueOf(account.getCreatedAt()));
+
+        mem = memberDAO.selectByAccountID(account.getId());
+        System.out.println(mem);
+        txtIDHoiVien.setText(String.valueOf(mem.getId()));
+        txtTenHoiVien.setText(mem.getName());
+        txtSoDu.setText(String.valueOf(mem.getBalance()));
+    }
+
+        void checkNull(Integer accountId) throws Exception {
+        if (accountId == null) {
+
+        } else {
+            setForm(accountId);
+        }
+    }
+
+    void insert() {
+        try {
+            Account account = getForm();
+            AccountDAO accDao = new AccountDAO();
+            accDao.insert(account);
+            txtIDHoiVien.setText(String.valueOf(account.getId()));
+            System.out.println("inst_acc: " + account);
+            System.out.println("QLHV => Them tai khoan thanh cong");
+            try {
+                Member member = getFormMem_Insert();
+                System.out.println("ins_mem: " + member);
+                MemberDAO memDao = new MemberDAO();
+                memDao.insert(member);
+                Xnoti.msg(this, "Thêm Hội Viên Thành Công", "NetCaFe");
+                fillOnUpdate();
+                System.out.println("QLHV => Them hoi vien thanh cong");
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                System.out.println("QLHV => Them hoi vien that bai");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("QLHV => Them tai khoan that bai!!");
+        }
+    }
+
+    void update() {
+        Member mem = getFormMem_Update();
+        Account acc = getForm();
+        System.out.println("=========================");
+        System.out.println("memgetform" + mem);
+        MemberDAO memDAO = new MemberDAO();
+        try {
+            memDAO.update(mem);
+            System.out.println("mem" + mem);
+            accountDAO.update(acc);
+            System.out.println("capnhat thanh cong");
+            Xnoti.msg(this, "Cập Nhật Thành Công", "NetCaFe");
+            fillOnUpdate();
+        } catch (Exception e) {
+        }
+    }
+
+    void delete() {
+        try {
+//            Member mem = getFormMem();
+            int IDhv = Integer.parseInt(txtIDHoiVien.getText());
+            int IDtk = Integer.parseInt(txtIDTaiKhoan.getText());
+            memberDAO.delete(IDhv);
+            System.out.println("QLHV ==> Xoa hoi vien thanh cong: " + IDhv);
+            accountDAO.delete(IDtk);
+            System.out.println("QLHV ==> Xoa tai khoan co Id" + IDhv + " la hoi vien ");
+            Xnoti.msg(this, "Xóa Thành Công", "NetCaFe");
+            fillOnUpdate();
+        } catch (Exception e) {
+            System.out.println("Xoa HoiVien khong thanh cong");
+            e.printStackTrace();
+        }
+
     }
     
 
@@ -350,17 +464,43 @@ public class ThemTaiKhoanHoiVienJDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTenTaiKhoanActionPerformed
 
-    private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
+    private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnLamMoiActionPerformed
-
+        txtIDHoiVien.setText(null);
+        txtIDTaiKhoan.setText(null);
+        txtMatKhau.setText(null);
+        txtSoDu.setText(null);
+        txtTao.setText(null);
+        txtTaoLuc.setText(null);
+        txtTenHoiVien.setText(null);
+        txtTenTaiKhoan.setText(null);
+    }  
     private void cboVaiTroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboVaiTroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cboVaiTroActionPerformed
 
-    private void txtTaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTaoActionPerformed
-        
-    }//GEN-LAST:event_txtTaoActionPerformed
+  private void txtTaoActionPerformed(java.awt.event.ActionEvent evt) {                                       
+try {
+            insert();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }        
+    }  
+ private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {                                       
+        // TODO add your handling code here:
+         try {
+            update();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
+ private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {                                       
+ try {
+            delete();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }        // TODO add your handling code here:
+    }  
 
     /**
      * @param args the command line arguments
@@ -397,7 +537,7 @@ public class ThemTaiKhoanHoiVienJDialog extends javax.swing.JDialog {
             public void run() {
                 ThemTaiKhoanHoiVienJDialog dialog = null;
                 try {
-                    dialog = new ThemTaiKhoanHoiVienJDialog(new javax.swing.JFrame(), true);
+                    dialog = new ThemTaiKhoanHoiVienJDialog(new javax.swing.JFrame(), true,accountId);
                 } catch (Exception ex) {
                     Logger.getLogger(ThemTaiKhoanHoiVienJDialog.class.getName()).log(Level.SEVERE, null, ex);
                 }
