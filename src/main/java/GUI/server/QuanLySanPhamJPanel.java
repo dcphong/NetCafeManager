@@ -97,7 +97,7 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel  {
         try {
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
             TaoSanPhamJDialog tsp = new TaoSanPhamJDialog(frame, true);
-            
+            loadDataToTable();
             Product p = list.get(i);
             tsp.getTxtIDSanPham().setText(String.valueOf(p.getId()));
             tsp.getTxtTenSanPham().setText(p.getName());
@@ -375,12 +375,7 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel  {
 
     private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
         // TODO add your handling code here:
-            try {
-                current = tblSanPham.getSelectedRow();
-                setForm(current);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            
     }//GEN-LAST:event_tblSanPhamMouseClicked
 
     private void itXemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itXemMouseClicked
@@ -393,10 +388,8 @@ public class QuanLySanPhamJPanel extends javax.swing.JPanel  {
         // TODO add your handling code here:
        try {
             current = tblSanPham.getSelectedRow();
+           System.out.println(current);
             setForm(current);
-//             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-//        TaoSanPhamJDialog dialog = new TaoSanPhamJDialog(frame, true);
-//        dialog.setVisible(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
