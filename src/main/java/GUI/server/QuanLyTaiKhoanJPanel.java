@@ -33,9 +33,10 @@ public class QuanLyTaiKhoanJPanel extends javax.swing.JPanel {
     Member member = new Member();
     AccountDAO accountDAO = new AccountDAO();
     MemberDAO memberDAO = new MemberDAO();
+    EmployeeDAO emDao = new EmployeeDAO();
     int STT = 1;
     int current = 0;
-
+private ServerMain serverMain;
     public QuanLyTaiKhoanJPanel(){
 
         initComponents();
@@ -53,7 +54,15 @@ public class QuanLyTaiKhoanJPanel extends javax.swing.JPanel {
         int[] widths ={50, 100, 250, 250, 175, 175};
         XInitTable.setColumnWidths(tblQuanLyTaiKhoan, widths);
     }
+    void refresh() {
+        try {
+            this.loadDataToArray();
+            this.fillToTable();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+    }
     public void loadDataToArray() {
             STT = 1;
             listAcount.clear();
@@ -64,18 +73,18 @@ public class QuanLyTaiKhoanJPanel extends javax.swing.JPanel {
         }
     }
 
-    void searchId() throws Exception {
+    public boolean searchId(String text) throws Exception {
         try {
-            STT = 1;
-            listAcount.clear();
-            account = accountDAO.selectByID(Integer.parseInt(txtTimKiem.getText()));
-            listAcount.add(account);
-            fillToTable();
+            for (char c : text.toCharArray()) {
+                if (!Character.isDigit(c)) {
+                    return false;
+                }
+            }
         } catch (Exception e) {
-            fillToTable();
+            System.out.println("Không tìm thấy Account");
             e.printStackTrace();
         }
-
+        return true;
     }
 
     void fillToTable() {
@@ -97,52 +106,34 @@ public class QuanLyTaiKhoanJPanel extends javax.swing.JPanel {
         }
     }
 
-    public void setForm(int i) throws Exception {
+   void getRowDelete(int index) {
         try {
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            ThemTaiKhoanHoiVienJDialog themHoiVien = new ThemTaiKhoanHoiVienJDialog(frame, true);
+            int rowId = (int) tblQuanLyTaiKhoan.getValueAt(index, 1);
+//            String role = (String) tblQuanLyTaiKhoan.getValueAt(index, 4);
+            MemberDAO memDao = new MemberDAO();
+            EmployeeDAO emDao = new EmployeeDAO();
+            Account acc = listAcount.get(index);
+            if (acc.getRole().trim().equalsIgnoreCase("Hội viên")) {
+                Member mem = memDao.selectByAccountID(rowId);
+                System.out.println(mem);
+                memDao.delete(mem.getId());
+                System.out.println("Xoa thanh cong hv: " + rowId);
+                accountDAO.delete(rowId);
+            } else if (acc.getRole().trim().equalsIgnoreCase("Nhân viên")) {
+                Employee em = emDao.selectByAccountID(rowId);
+                System.out.println(em);
+                emDao.delete(em.getId());
+                System.out.println("Xoa thanh cong nv: " + rowId);
+                accountDAO.delete(rowId);
+            }
+            System.out.println("QLTK => Fill table");
             loadDataToArray();
             fillToTable();
-            Account accountSetForm = listAcount.get(i);
-
-            themHoiVien.getTxtIDTaiKhoan().setText(String.valueOf(accountSetForm.getId()));
-            themHoiVien.getTxtTenTaiKhoan().setText(accountSetForm.getUsername());
-            themHoiVien.getTxtMatKhau().setText(accountSetForm.getPassword());
-
-            if (accountSetForm.getRole().equals("admin")) {
-//            roles = 0;
-                themHoiVien.getCboVaiTro().setSelectedIndex(1);
-            }
-            if (accountSetForm.getRole().equals("Nhân viên")) {
-//            roles = 1;
-                themHoiVien.getCboVaiTro().setSelectedIndex(2);
-            } else {
-                themHoiVien.getCboVaiTro().setSelectedIndex(0);
-            }
-
-            // Thêm from member
-            Member member = memberDAO.selectByID(accountSetForm.getId());
-            if (String.valueOf(member) == null) {
-                return;
-            } else {
-
-                if (member != null) {
-
-                    themHoiVien.getTxtIDHoiVien().setText(String.valueOf(member.getId()));
-                    themHoiVien.getTxtTenHoiVien().setText(String.valueOf(member.getName()));
-                    themHoiVien.getTxtSoDu().setText(String.valueOf(member.getBalance()));
-
-                } else {
-                    JOptionPane.showMessageDialog(this, "Không có tài khoản này !");
-                }
-            }
-
-            themHoiVien.setVisible(true);
+            System.out.println();
         } catch (Exception e) {
             e.printStackTrace();
-
+            System.out.println("Xoa khong thanh");
         }
-
     }
 
     private void addPopupToTable() {
@@ -168,7 +159,24 @@ public class QuanLyTaiKhoanJPanel extends javax.swing.JPanel {
                 if (!tblQuanLyTaiKhoan.isRowSelected(row)) {
                     tblQuanLyTaiKhoan.changeSelection(row, column, false, false);
                 }
-                pup.show(e.getComponent(), e.getX(), e.getY());
+                int index = tblQuanLyTaiKhoan.getSelectedRow();
+                String role = (String) tblQuanLyTaiKhoan.getValueAt(index, 4);
+                if (role.trim().equalsIgnoreCase("Hội viên")) {
+                    mnitNapTien.setVisible(true);
+                    mnitChiTiet.setVisible(true);
+                    mnitXoa.setVisible(true);
+                    pup.show(e.getComponent(), e.getX(), e.getY());
+                }
+                if (role.trim().equalsIgnoreCase("admin")) {
+                    mnitChiTiet.setVisible(false);
+                    mnitNapTien.setVisible(false);
+                    mnitXoa.setVisible(false);
+                } else {
+                    mnitNapTien.setVisible(false);
+                    mnitChiTiet.setVisible(true);
+                    mnitXoa.setVisible(true);
+                    pup.show(e.getComponent(), e.getX(), e.getY());
+                }
             }
         });
     }
@@ -422,15 +430,80 @@ public class QuanLyTaiKhoanJPanel extends javax.swing.JPanel {
 
 
     }//GEN-LAST:event_mnitChiTietActionPerformed
-
+    
     private void mnitChiTietMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnitChiTietMouseClicked
 
     }//GEN-LAST:event_mnitChiTietMouseClicked
+    private void mnitChiTietActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        // TODO add your handling code here:
+         String rl = (String) tblQuanLyTaiKhoan.getValueAt(current, 4);
+        System.out.println(rl); // => sys role
+        current = tblQuanLyTaiKhoan.getSelectedRow();
+        try {
+            loadDataToArray();
+            Account acc = listAcount.get(current); // sys row clicked
+            try {
+                System.out.println(acc.getId()); // sys id
+                if (rl.trim().equalsIgnoreCase("hội viên")) {
+                    try {
+                        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+                        ThemTaiKhoanHoiVienJDialog taoHoiVien = new ThemTaiKhoanHoiVienJDialog(frame, true, acc.getId());
 
+                        //taoHoiVien = new ThemTaiKhoanHoiVienJDialog(frame, true);
+                        System.out.println(acc.getId());
+                        taoHoiVien.setMemberListener(new UpdateListener() {
+                            @Override
+                            public void onUpdate() {
+                                refresh();
+                            }
+                        });
+                        taoHoiVien.setVisible(true);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                } else if (rl.trim().equalsIgnoreCase("Nhân viên")) {
+                    try {
+                        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+                        ThemTaiKhoanNhanVienJDialog taoNhanVien = new ThemTaiKhoanNhanVienJDialog(frame, true, acc.getId());
+                        System.out.println(acc.getId());
+                        taoNhanVien.setEmployeeListener(() -> refresh());
+                        taoNhanVien.setVisible(true);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void tblQuanLyTaiKhoanMouseClicked(java.awt.event.MouseEvent evt) {                                               
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+            current = tblQuanLyTaiKhoan.getSelectedRow();
+            System.out.println(current);
+        } else {
+            current = tblQuanLyTaiKhoan.getSelectedRow();
+            System.out.println(current);
+        }
+
+    } 
     private void btnThemNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemNhanVienActionPerformed
         // TODO add your handling code here:
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        ThemTaiKhoanNhanVienJDialog taoNhanVien = new ThemTaiKhoanNhanVienJDialog(frame, true);
+         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        ThemTaiKhoanNhanVienJDialog taoNhanVien = null;
+
+        try {
+            taoNhanVien = new ThemTaiKhoanNhanVienJDialog(frame, true, null);
+
+        } catch (Exception ex) {
+            Logger.getLogger(QuanLyTaiKhoanJPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        taoNhanVien.setEmployeeListener(() -> refresh());
         taoNhanVien.setVisible(true);
     }//GEN-LAST:event_btnThemNhanVienActionPerformed
 
@@ -438,20 +511,26 @@ public class QuanLyTaiKhoanJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
         ThemTaiKhoanHoiVienJDialog taoHoiVien = null;
+
         try {
-            taoHoiVien = new ThemTaiKhoanHoiVienJDialog(frame, true);
+            taoHoiVien = new ThemTaiKhoanHoiVienJDialog(frame, true, null);
+
         } catch (Exception ex) {
             Logger.getLogger(QuanLyTaiKhoanJPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        taoHoiVien.setMemberListener(() -> refresh());
         taoHoiVien.setVisible(true);
-
     }//GEN-LAST:event_btnThemHoiVienActionPerformed
 
     private void mnitNapTienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnitNapTienActionPerformed
         // TODO add your handling code here:
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        NapTienJDialog napTien = new NapTienJDialog(frame, true);
-        napTien.setVisible(true);
+        int index = tblQuanLyTaiKhoan.getSelectedRow();
+        String role = (String) tblQuanLyTaiKhoan.getValueAt(index, 4);
+        if (role.trim().equalsIgnoreCase("Hội viên")) {
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+            NapTienJDialog napTien = new NapTienJDialog(frame, true);
+            napTien.setVisible(true);
+        }
     }//GEN-LAST:event_mnitNapTienActionPerformed
 
 
