@@ -67,5 +67,9 @@ public class ProductDAO implements IBaseDAO<Product, Integer> {
         List<Product> list = selectBySQL(sql, name);
         return list.isEmpty() ? null : list.get(0);
     }
+    public List<Product> searchByName(String name) throws Exception{
+        String sql = "select * from product where name like ?";
+        return selectBySQL(sql, "%"+name+"%");
+    }
 }
 
