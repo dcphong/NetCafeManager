@@ -4,9 +4,11 @@
  */
 package GUI.server;
 
+import dao.InvoiceDAO;
 import dao.InvoiceDetailDAO;
 import dao.ProductDAO;
 import dao.SessionDAO;
+import entity.Invoice;
 import entity.InvoiceDetail;
 import entity.Product;
 import entity.Session;
@@ -17,7 +19,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import main_server.MainTest;
 import utils.XInitTable;
+import utils.Xnoti;
 
 /**
  *
@@ -30,8 +34,10 @@ public class ChiTietHoaDonJDialog extends javax.swing.JDialog {
     private InvoiceDetail invoiceDetail;
     private Session session;
     private Product product;
+    private Invoice invoice;
     
     InvoiceDetailDAO invoiceDetailDAO = new InvoiceDetailDAO();
+    InvoiceDAO invoiceDAO = new InvoiceDAO();
     SessionDAO sessionDAO = new SessionDAO();
     ProductDAO productDAO = new ProductDAO();
     
@@ -52,6 +58,8 @@ public class ChiTietHoaDonJDialog extends javax.swing.JDialog {
         addPopupToTable();
         this.invoiceID = InvoiceID;
         fillToTable();
+        autoFinish();
+       
     }
 
     public void initTable() {
@@ -61,7 +69,8 @@ public class ChiTietHoaDonJDialog extends javax.swing.JDialog {
         int[] widths = {50, 125, 125, 300, 300};
         XInitTable.setColumnWidths(tblSession, widths);
     }
-    
+
+
     private void addPopupToTable() {
         
         tblInvoiceDetali.addMouseListener(new MouseAdapter() {
@@ -152,7 +161,67 @@ public class ChiTietHoaDonJDialog extends javax.swing.JDialog {
                 return false;
             }
         }
+        if(listSessions == null){
+            return false;
+        }else if(listSessions.isEmpty()){
+            return false;
+        }
         return true;
+    }
+    
+    private void autoFinish(){
+        if(isFinish()){
+           session = listSessions.get(0);
+           if(session.getEndTime() != null){
+               updataStatusInvoice();
+               Xnoti.msg(this, "Hóa đơn đã tự động hoàn thành! Vì không có ODER ", "Thông báo");
+           }
+        }
+    }
+    
+    public void updataStatusInvoice(){
+        if(isFinish()){
+            try {
+                invoice =  invoiceDAO.selectByID(invoiceID);
+                Integer memberID = invoice.getMemberID();
+                if(memberID != null && memberID != 0){
+                    invoice.setStatus("Hoàn thành");
+                    invoiceDAO.update(invoice);
+                    MainTest.mainForm.managerInvoice.loadDataToArray();
+                    MainTest.mainForm.managerInvoice.fillToTable();
+                } else {
+                    Boolean isConfirm = Xnoti.confirm(this, "Bạn có muốn xác nhận thanh toán cho vãng lai?");
+                    if (isConfirm) {
+                        invoice.setStatus("Hoàn thành");
+                        invoiceDAO.update(invoice);
+                        MainTest.mainForm.managerInvoice.loadDataToArray();
+                        MainTest.mainForm.managerInvoice.fillToTable();
+                    }
+                }
+                          
+            } catch (Exception ex) {
+                Logger.getLogger(ChiTietHoaDonJDialog.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private void updateStatus(){
+        
+        invoiceDetail = new InvoiceDetail();
+        current = tblInvoiceDetali.getSelectedRow();
+        int invoiceDetailID = Integer.parseInt( tblInvoiceDetali.getValueAt(current, 1 ).toString() );
+        
+        try {
+            invoiceDetail = invoiceDetailDAO.selectByID(invoiceDetailID);
+            invoiceDetail.setCompleted(true);
+            invoiceDetailDAO.update(invoiceDetail);
+            loadDataToArray();
+            fillToTable();
+            updataStatusInvoice();
+         
+        } catch (Exception ex) {
+            Logger.getLogger(ChiTietHoaDonJDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 
@@ -345,7 +414,7 @@ public class ChiTietHoaDonJDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mnitThayDoiTrangThaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnitThayDoiTrangThaiActionPerformed
-        // TODO add your handling code here:
+         updateStatus();
     }//GEN-LAST:event_mnitThayDoiTrangThaiActionPerformed
 
     /**
