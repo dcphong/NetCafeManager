@@ -240,7 +240,12 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
         login();
     }//GEN-LAST:event_btnLoginActionPerformed
-
+    private void txtMatKhauKeyPressed(java.awt.event.KeyEvent evt) {                                      
+        // TODO add your handling code here:
+         if (evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER) {
+            btnLogin.doClick();
+        }
+    } 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
         System.exit(0);
